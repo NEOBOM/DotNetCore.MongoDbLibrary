@@ -4,3 +4,9 @@
 
 *.suo
 *.sqlite
+*.dll
+*.pdb
+/src/MongoDbLibrary/MongoDbLibrary.Mongo/obj
+/src/MongoDbLibrary/MongoDbLibrary.Mongo/bin/Debug/netcoreapp3.0
+/src/MongoDbLibrary/.vs/MongoDbLibrary/v16/Server/sqlite3
+/.vs
