@@ -10,3 +10,4 @@
 /src/MongoDbLibrary/MongoDbLibrary.Mongo/bin/Debug/netcoreapp3.0
 /src/MongoDbLibrary/.vs/MongoDbLibrary/v16/Server/sqlite3
 /.vs
+/src/MongoDbLibrary/.vs/MongoDbLibrary/DesignTimeBuild
