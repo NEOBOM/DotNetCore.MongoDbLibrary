@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MongoDbLibrary.Mongo
@@ -137,56 +138,51 @@ namespace MongoDbLibrary.Mongo
             _mongoDbClient.Collection<TEntity>(collectionName).ReplaceOne<TEntity>(expression, entity, new UpdateOptions { IsUpsert = false });
         }
 
-        public async Task UpdateOneAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, TEntity entity) where TEntity : class
-        {
-            await _mongoDbClient.Collection<TEntity>(collectionName).ReplaceOneAsync<TEntity>(expression, entity);
-        }
+        //public async Task UpdateOneAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, TEntity entity, CancellationToken cancellationToken = default) where TEntity : class
+        //{
+        //    var updated = Builders<TEntity>.Update.AddToSet(;
+        //    var result = await _mongoDbClient.Collection<TEntity>(collectionName).UpdateOneAsync(expression, entity, new UpdateOptions { IsUpsert = true }, cancellationToken).ConfigureAwait(false);
+        //    return result;
+        //}
 
-        public bool BulkWrite<TEntity>(string collectionName, Func<TEntity, Expression<Func<TEntity, bool>>> expression, List<TEntity> entities) where TEntity : class
-        {
-            var bulkOps = entities?.Select(entity => new ReplaceOneModel<TEntity>(expression(entity), entity) { IsUpsert = true });
-
-            if (bulkOps != null && bulkOps.Any())
-                return _mongoDbClient.Collection<TEntity>(collectionName).BulkWrite(bulkOps).IsAcknowledged;
-
-            return false;
-        }
-
-        public async Task<bool> BulkWriteAsync<TEntity>(string collectionName, Func<TEntity, Expression<Func<TEntity, bool>>> expression, List<TEntity> entities) where TEntity : class
+        public bool BulkWrite<TEntity>(string collectionName, Func<TEntity, Expression<Func<TEntity, bool>>> expression, List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class
         {
             var bulkOps = entities?.Select(entity => new ReplaceOneModel<TEntity>(expression(entity), entity) { IsUpsert = true });
 
-            if (bulkOps != null && bulkOps.Any())
-            {
-                var result = await _mongoDbClient.Collection<TEntity>(collectionName).BulkWriteAsync(bulkOps).ConfigureAwait(true);
+            if (bulkOps != null && bulkOps.Any()) return false;
 
-                return result.IsAcknowledged;
-            }
-
-            return false;
+            return _mongoDbClient.Collection<TEntity>(collectionName).BulkWrite(bulkOps, cancellationToken: cancellationToken).IsAcknowledged;
         }
 
-        public bool DeleteOne<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
+        public async Task<bool> BulkWriteAsync<TEntity>(string collectionName, Func<TEntity, Expression<Func<TEntity, bool>>> expression, List<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : class
         {
-            return _mongoDbClient.Collection<TEntity>(collectionName).DeleteOne<TEntity>(expression).IsAcknowledged;
-        }
+            var bulkOps = entities?.Select(entity => new ReplaceOneModel<TEntity>(expression(entity), entity) { IsUpsert = true });
 
-        public async Task<bool> DeleteOneAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
-        {
-            var result = await _mongoDbClient.Collection<TEntity>(collectionName).DeleteOneAsync<TEntity>(expression).ConfigureAwait(true);
+            if (bulkOps == null && !bulkOps.Any()) return false;
 
+            var result = await _mongoDbClient.Collection<TEntity>(collectionName).BulkWriteAsync(bulkOps, cancellationToken: cancellationToken).ConfigureAwait(true);
             return result.IsAcknowledged;
         }
 
-        public bool DeleteMany<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
+        public bool DeleteOne<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) where TEntity : class
         {
-            return _mongoDbClient.Collection<TEntity>(collectionName).DeleteMany<TEntity>(expression).IsAcknowledged;
+            return _mongoDbClient.Collection<TEntity>(collectionName).DeleteOne(expression, cancellationToken).IsAcknowledged;
         }
 
-        public async Task<bool> DeleteManyAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
+        public async Task<bool> DeleteOneAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) where TEntity : class
         {
-            var result = await _mongoDbClient.Collection<TEntity>(collectionName).DeleteManyAsync<TEntity>(expression);
+            var result = await _mongoDbClient.Collection<TEntity>(collectionName).DeleteOneAsync(expression, cancellationToken).ConfigureAwait(false);
+            return result.IsAcknowledged;
+        }
 
+        public bool DeleteMany<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) where TEntity : class
+        {
+            return _mongoDbClient.Collection<TEntity>(collectionName).DeleteMany(expression, cancellationToken).IsAcknowledged;
+        }
+
+        public async Task<bool> DeleteManyAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) where TEntity : class
+        {
+            var result = await _mongoDbClient.Collection<TEntity>(collectionName).DeleteManyAsync(expression, cancellationToken).ConfigureAwait(false);
             return result.IsAcknowledged;
         }
     }
