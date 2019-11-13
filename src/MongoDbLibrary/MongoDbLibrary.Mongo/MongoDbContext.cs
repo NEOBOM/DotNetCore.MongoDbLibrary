@@ -22,8 +22,8 @@ namespace MongoDbLibrary.Mongo
         /// </summary>
         /// <typeparam name="TEntity">Entity return type</typeparam>
         /// <param name="collectionName">Collection name</param>
-        /// <param name="expression">Expression for find documento</param>
-        /// <returns></returns>
+        /// <param name="expression">Expression filter</param>
+        /// <returns>TEntity</returns>
         public TEntity Find<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
         {
             return _mongoDbClient.Collection<TEntity>(collectionName).Find(expression).FirstOrDefault();
@@ -34,7 +34,7 @@ namespace MongoDbLibrary.Mongo
         /// </summary>
         /// <typeparam name="TEntity">Entity return type</typeparam>
         /// <param name="collectionName">Collection name</param>
-        /// <param name="expression">Expression filter for find a documento</param>
+        /// <param name="expression">Expression filter</param>
         /// <returns></returns>
         public Task<TEntity> FindAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
         {
@@ -46,7 +46,7 @@ namespace MongoDbLibrary.Mongo
         /// </summary>
         /// <typeparam name="TEntity">Entity type return</typeparam>
         /// <param name="collectionName">Collection name</param>
-        /// <param name="expression">Expression filter for find all documents</param>
+        /// <param name="expression">Expression filter</param>
         /// <returns></returns>
         public List<TEntity> Select<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
         {
@@ -58,59 +58,117 @@ namespace MongoDbLibrary.Mongo
         /// </summary>
         /// <typeparam name="TEntity">Entity return type</typeparam>
         /// <param name="collectionName">Collection name</param>
-        /// <param name="expression">Expression filter for find all documents</param>
-        /// <returns></returns>
+        /// <param name="expression">Expression filter</param>
+        /// <returns>Task<List<TEntity>></returns>
         public Task<List<TEntity>> SelectAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression) where TEntity : class
         {
             return _mongoDbClient.Collection<TEntity>(collectionName).Find(expression).ToListAsync();
         }
 
+        /// <summary>
+        /// Find all documentos by filters.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity return type</typeparam>
+        /// <typeparam name="T">Filter type</typeparam>
+        /// <param name="collectionName">Collection name</param>
+        /// <param name="expression">Expression filter</param>
+        /// <param name="entities">Entities for filter</param>
+        /// <returns>Task<List<TEntity>></returns>
         public Task<List<TEntity>> Select<TEntity, T>(string collectionName, Func<T, Expression<Func<TEntity, bool>>> expression, List<T> entities) where TEntity : class where T : class
         {
             var filters = Builders<TEntity>.Filter.And(entities?.Select(entity => Builders<TEntity>.Filter.Where(expression(entity))));
-
             return _mongoDbClient.Collection<TEntity>(collectionName).Find(filters).ToListAsync();
         }
 
-        public List<TEntity> SelectAsync<TEntity, T>(string collectionName, Func<T, Expression<Func<TEntity, bool>>> expression, List<T> entities) where TEntity : class where T : class
+        /// <summary>
+        /// Find all documentos by filters.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity return type</typeparam>
+        /// <typeparam name="T">Filter type</typeparam>
+        /// <param name="collectionName">Collection name</param>
+        /// <param name="expression">Expression filter</param>
+        /// <param name="entities">Entities for filter</param>
+        /// <returns>Task<List<TEntity>></returns>
+        public Task<List<TEntity>> SelectAsync<TEntity, T>(string collectionName, Func<T, Expression<Func<TEntity, bool>>> expression, List<T> entities) where TEntity : class where T : class
         {
             var filters = Builders<TEntity>.Filter.And(entities?.Select(entity => Builders<TEntity>.Filter.Where(expression(entity))));
-
-            return _mongoDbClient.Collection<TEntity>(collectionName).Find(filters).ToList();
+            return _mongoDbClient.Collection<TEntity>(collectionName).Find(filters).ToListAsync();
         }
 
+        /// <summary>
+        /// Find all documentos by filters with limit.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity return type</typeparam>
+        /// <param name="collectionName">Collection name</param>
+        /// <param name="expression">Expression filter</param>
+        /// <param name="limit">Limit the mumber of documents</param>
+        /// <returns></returns>
         public List<TEntity> SelectWithLimit<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, int limit) where TEntity : class
         {
             return _mongoDbClient.Collection<TEntity>(collectionName).Find(expression).Limit(limit).ToList();
         }
 
+        /// <summary>
+        /// Find all documentos by filters with limit.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity return type</typeparam>
+        /// <param name="collectionName">Collection name</param>
+        /// <param name="expression">Expression filter</param>
+        /// <param name="limit">Limit the mumber of documents</param>
+        /// <returns>Task<List<TEntity>></returns>
         public Task<List<TEntity>> SelectWithLimitAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, int limit) where TEntity : class
         {
             return _mongoDbClient.Collection<TEntity>(collectionName).Find(expression).Limit(limit).ToListAsync();
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="collectionName"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public List<TEntity> SelectWithKey<TEntity>(string collectionName, string key, string value) where TEntity : class
         {
             var filter = Builders<TEntity>.Filter.Eq(key, value);
-
             return _mongoDbClient.Collection<TEntity>(collectionName).Find(filter).ToList();
         }
 
-        public List<TEntity> SelectWithKeyAsy<TEntity>(string collectionName, string key, string value) where TEntity : class
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="collectionName"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Task<List<TEntity>> SelectWithKeyAsync<TEntity>(string collectionName, string key, string value) where TEntity : class
         {
             var filter = Builders<TEntity>.Filter.Eq(key, value);
-
-            return _mongoDbClient.Collection<TEntity>(collectionName).Find(filter).ToList();
+            return _mongoDbClient.Collection<TEntity>(collectionName).Find(filter).ToListAsync();
         }
 
+        /// <summary>
+        /// Get all documentos.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity return type</typeparam>
+        /// <param name="collectionName">Collection name</param>
+        /// <returns>List<TEntity></returns>
         public List<TEntity> SelectAll<TEntity>(string collectionName) where TEntity : class
         {
             return _mongoDbClient.Collection<TEntity>(collectionName).Find(_ => true).ToList();
         }
 
-        public async Task<List<TEntity>> SelectAllAsync<TEntity>(string collectionName) where TEntity : class
+        /// <summary>
+        /// Get all documentos.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity return type</typeparam>
+        /// <param name="collectionName">Collection name</param>
+        /// <returns>Task<List<TEntity>></returns>
+        public Task<List<TEntity>> SelectAllAsync<TEntity>(string collectionName) where TEntity : class
         {
-            return await _mongoDbClient.Collection<TEntity>(collectionName).Find(_ => true).ToListAsync();
+            return _mongoDbClient.Collection<TEntity>(collectionName).Find(_ => true).ToListAsync();
         }
 
         public void InsertOne<TEntity>(string collectionName, TEntity entity) where TEntity : class
@@ -145,17 +203,17 @@ namespace MongoDbLibrary.Mongo
         //    return result;
         //}
 
-        public bool UpdateOnePush<TEntity>(string collectionName, FilterDefinition<TEntity> filter, string field, TEntity entity) where TEntity : class
+        public bool UpdateOnePush<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, string field, TEntity entity, CancellationToken cancellationToken = default) where TEntity : class
         {
             var update = Builders<TEntity>.Update.Push(field, entity);
-            var result = _mongoDbClient.Collection<TEntity>(collectionName).UpdateOne(filter, update);
+            var result = _mongoDbClient.Collection<TEntity>(collectionName).UpdateOne(expression, update, new UpdateOptions { IsUpsert = false }, cancellationToken);
             return result.IsAcknowledged && result.ModifiedCount > 0;
         }
 
-        public async Task<bool> UpdateOnePushAsync<TEntity>(string collectionName, FilterDefinition<TEntity> filter, string field, TEntity entity) where TEntity : class
+        public async Task<bool> UpdateOnePushAsync<TEntity>(string collectionName, Expression<Func<TEntity, bool>> expression, string field, TEntity entity, CancellationToken cancellationToken = default) where TEntity : class
         {
             var update = Builders<TEntity>.Update.Push(field, entity);
-            var result = await _mongoDbClient.Collection<TEntity>(collectionName).UpdateOneAsync(filter, update).ConfigureAwait(false);
+            var result = await _mongoDbClient.Collection<TEntity>(collectionName).UpdateOneAsync(expression, update, new UpdateOptions { IsUpsert = false }, cancellationToken).ConfigureAwait(false);
             return result.IsAcknowledged && result.ModifiedCount > 0;
         }
 
