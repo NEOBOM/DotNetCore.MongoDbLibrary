@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using MongoDbLibrary.Mongo.Properties;
 using System;
 
 namespace MongoDbLibrary.Mongo
@@ -25,10 +26,10 @@ namespace MongoDbLibrary.Mongo
         public MongoDbClient(IMongoClient mongoClient, string mongoDbName)
         {
             if (mongoClient == null)
-                throw new Exception(ResourceMessages.MESSAGE_MONGO_CLIENT_INVALID);
+                throw new Exception(Resources.MESSAGE_MONGO_CLIENT_INVALID);
 
             if (string.IsNullOrEmpty(mongoDbName))
-                throw new Exception(ResourceMessages.MESSAGE_MONGO_DB_NAME_INVALID);
+                throw new Exception(Resources.MESSAGE_MONGO_DB_NAME_INVALID);
 
             _db = mongoClient.GetDatabase(mongoDbName);
 
