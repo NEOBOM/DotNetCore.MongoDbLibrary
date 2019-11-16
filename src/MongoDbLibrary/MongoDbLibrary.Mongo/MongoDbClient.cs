@@ -25,10 +25,10 @@ namespace MongoDbLibrary.Mongo
         public MongoDbClient(IMongoClient mongoClient, string mongoDbName)
         {
             if (mongoClient == null)
-                throw new Exception("mongoClient is null.");
+                throw new Exception(ResourceMessages.MESSAGE_MONGO_CLIENT_INVALID);
 
             if (string.IsNullOrEmpty(mongoDbName))
-                throw new Exception("DbName is empty. DbName is necessary for access a DataBase");
+                throw new Exception(ResourceMessages.MESSAGE_MONGO_DB_NAME_INVALID);
 
             _db = mongoClient.GetDatabase(mongoDbName);
 
