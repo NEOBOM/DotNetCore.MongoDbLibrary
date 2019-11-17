@@ -11,3 +11,10 @@
 /src/MongoDbLibrary/.vs/MongoDbLibrary/v16/Server/sqlite3
 /.vs
 *.dtbcache
+src/.vs/MongoDbLibrary/v16/Server/sqlite3/db.lock
+src/.vs/MongoDbLibrary/v16/Server/sqlite3/storage.ide
+src/.vs/MongoDbLibrary/v16/Server/sqlite3/storage.ide-shm
+src/.vs/MongoDbLibrary/v16/Server/sqlite3/storage.ide-wal
+src/MongoDbLibrary.Mongo/bin/Debug/netcoreapp3.0/MongoDbLibrary.Mongo.deps.json
+src/MongoDbLibrary.Mongo/obj/Debug/netcoreapp3.0/MongoDbLibrary.Mongo.AssemblyInfo.cs
+src/MongoDbLibrary.Mongo/obj/project.assets.json
