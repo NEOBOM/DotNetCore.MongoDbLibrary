@@ -1,9 +1,0 @@
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\bin\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.deps.json
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\bin\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.dll
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\bin\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.pdb
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\obj\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.AssemblyInfoInputs.cache
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\obj\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.AssemblyInfo.cs
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\obj\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.dll
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\obj\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.pdb
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\obj\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.csproj.GenerateResource.cache
-D:\Projects\DotnetCore\Sources\MongoDbLibrary\src\MongoDbLibrary\MongoDbLibrary.Mongo\obj\Debug\netcoreapp3.0\MongoDbLibrary.Mongo.Properties.Resources.resources
