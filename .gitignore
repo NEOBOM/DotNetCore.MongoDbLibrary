@@ -7,13 +7,10 @@
 *.dll
 *.pdb
 /src/MongoDbLibrary/MongoDbLibrary.Mongo/obj
-/src/MongoDbLibrary/MongoDbLibrary.Mongo/bin/Debug/netcoreapp3.0
-/src/MongoDbLibrary/.vs/MongoDbLibrary/v16/Server/sqlite3
+/src/MongoDbLibrary/MongoDbLibrary.Mongo/bin/*
+/src/MongoDbLibrary/.vs/*
 /.vs
 *.dtbcache
-src/.vs/MongoDbLibrary/v16/Server/sqlite3/db.lock
-src/.vs/MongoDbLibrary/v16/Server/sqlite3/storage.ide
-src/.vs/MongoDbLibrary/v16/Server/sqlite3/storage.ide-shm
-src/.vs/MongoDbLibrary/v16/Server/sqlite3/storage.ide-wal
+src/.vs/*
 src/MongoDbLibrary.Mongo/bin/*
 src/MongoDbLibrary.Mongo/obj/*
